@@ -15,4 +15,6 @@ const add = async () => {
     <el-button type="warning">Warning</el-button>
     <el-button type="danger">Danger</el-button>
   </el-row>
+  <!-- 一级路由入口 -->
+  <router-view></router-view>
 </template>
