@@ -27,7 +27,11 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "@/styles/element/index.scss" as *;`  //第二步导入写好的styles/element/insex.scss文件中的内容
+        //第二步导入写好的styles/element/insex.scss文件中的内容
+        additionalData: `
+        @use "@/styles/element/index.scss" as *;     
+        @use "@/styles/var.scss" as *;
+        `  
       },
     },
   },

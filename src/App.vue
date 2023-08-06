@@ -7,6 +7,7 @@ const add = async () => {
 </script>
 <template>
   我是app.vue
+  <p class="txt">发顺丰框架啊啥卡加分号</p>
   <el-row class="mb-4">
     <el-button>Default</el-button>
     <el-button type="primary" @click="add">点击发送请求</el-button>
@@ -18,3 +19,8 @@ const add = async () => {
   <!-- 一级路由入口 -->
   <router-view></router-view>
 </template>
+<style lang="scss" scoped> 
+ .txt{
+  color: $warnColor;  //测试自动导入scss变量自动导入
+ }
+</style>
