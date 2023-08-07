@@ -1,12 +1,14 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { getCategoryAPI } from '@/apis/layout.js'
-const categoryList = ref([])
-const getCategory = async () => {
-    const res = await getCategoryAPI()
-    categoryList.value = res.data.result
-}
-onMounted(() => getCategory())    //钩子函数用于执行在组件挂载后需要执行的逻辑
+import { useCategoryStore } from '@/stores/category.js'   //使用了pinia得到nav导航条数据
+const CategoryStore = useCategoryStore()
+// import { getCategoryAPI } from '@/apis/layout.js'
+// const categoryList = ref([])
+// const getCategory = async () => {
+//     const res = await getCategoryAPI()    
+//     categoryList.value = res.data.result
+// }
+// onMounted(() => getCategory())    //钩子函数用于执行在组件挂载后需要执行的逻辑
+
 </script>
 
 <template>
@@ -19,7 +21,7 @@ onMounted(() => getCategory())    //钩子函数用于执行在组件挂载后�
                 <li class="home">
                     <RouterLink to="/">首页</RouterLink>
                 </li>
-                <li v-for="obj in categoryList" :key="obj.id">
+                <li v-for="obj in CategoryStore.categoryList" :key="obj.id">
                     <RouterLink to="/">{{ obj.name }}</RouterLink>
                 </li>
               
