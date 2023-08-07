@@ -5,7 +5,7 @@ const CategoryStore = useCategoryStore()
 // const categoryList = ref([])
 // const getCategory = async () => {
 //     const res = await getCategoryAPI()    
-//     categoryList.value = res.data.result
+//     categoryList.value = res.result
 // }
 // onMounted(() => getCategory())    //钩子函数用于执行在组件挂载后需要执行的逻辑
 
