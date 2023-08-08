@@ -1,8 +1,12 @@
 import http from '@/utils/http'
 //获取轮播图api
-export function getBannerAPI (){
+export function getBannerAPI (params={}){
+  const {distributionSite='1'}=params    //不传默认是1商品为2
     return http({
-        url:'/home/banner'
+        url:'/home/banner',
+        params:{
+          distributionSite
+        }
     })
 }
 /**
