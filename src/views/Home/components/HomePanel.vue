@@ -3,12 +3,10 @@ defineProps({
     title: {
         type: String,
         default: '',
-        required: true
     },
     SubTitle: {
         type: String,
         default: '',
-        required: true
     }
 })
 
