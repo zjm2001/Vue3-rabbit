@@ -1,35 +1,9 @@
 <script setup>
-import { getTopCategoryAPI } from '@/apis/category.js'
 import GoodsItem from '@/views/Home/components/GoodsItem.vue'
-import { getBannerAPI } from '@/apis/home'
-import { onBeforeRouteUpdate,useRoute } from 'vue-router'
-import { ref,onMounted } from 'vue'
-const route =useRoute()
-const categoryData = ref({})
-const getCategory = async (id) => {
-    const { result } = await getTopCategoryAPI(id)
-    categoryData.value = result
-}
-// 如何在setup中获取路由参数 useRoute() -> route 等价于this.$route     onMounted(() => getCategory(route.params.is)) 方法一
-// 进入时还需要调用一次
-onMounted(() => getCategory(route.params.id))
-//避免缓存使用onBeforeRouteUpdate()钩子
-onBeforeRouteUpdate((to) => {
-   // console.log(to);  //去到哪一个路由详情参数
-    getCategory(to.params.id)
-})
-
-// 获取banner
-const bannerList = ref([])
-const getBanner = async () => {
-    const res = await getBannerAPI({
-        distributionSite: '2'
-    })
-    console.log(res)
-    bannerList.value = res.result
-}
-
-onMounted(() => getBanner())
+import { useBanner } from './composables/useBanner'
+import { useCategory } from './composables/useCategory'
+const { bannerList } = useBanner()
+const { categoryData } = useCategory()
 
 </script>
 
@@ -47,7 +21,7 @@ onMounted(() => getBanner())
             <div class="home-banner">
                 <el-carousel height="500px">
                     <el-carousel-item v-for="item in bannerList" :key="item.id">
-                        <img :src="item.imgUrl" alt="">
+                        <img v-img-lazy="item.imgUrl" alt="">
                     </el-carousel-item>
                 </el-carousel>
             </div>
@@ -57,7 +31,7 @@ onMounted(() => getBanner())
                 <ul>
                     <li v-for="i in categoryData.children" :key="i.id">
                         <RouterLink to="/">
-                            <img :src="i.picture" />
+                            <img v-img-lazy="i.picture" />
                             <p>{{ i.name }}</p>
                         </RouterLink>
                     </li>
