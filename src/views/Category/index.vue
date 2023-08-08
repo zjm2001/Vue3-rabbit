@@ -2,16 +2,22 @@
 import { getTopCategoryAPI } from '@/apis/category.js'
 import GoodsItem from '@/views/Home/components/GoodsItem.vue'
 import { getBannerAPI } from '@/apis/home'
-import { useRoute } from 'vue-router'
-import { ref, onMounted } from 'vue'
+import { onBeforeRouteUpdate,useRoute } from 'vue-router'
+import { ref,onMounted } from 'vue'
+const route =useRoute()
 const categoryData = ref({})
-const route = useRoute()
 const getCategory = async (id) => {
     const { result } = await getTopCategoryAPI(id)
     categoryData.value = result
 }
-// 如何在setup中获取路由参数 useRoute() -> route 等价于this.$route
+// 如何在setup中获取路由参数 useRoute() -> route 等价于this.$route     onMounted(() => getCategory(route.params.is)) 方法一
+// 进入时还需要调用一次
 onMounted(() => getCategory(route.params.id))
+//避免缓存使用onBeforeRouteUpdate()钩子
+onBeforeRouteUpdate((to) => {
+   // console.log(to);  //去到哪一个路由详情参数
+    getCategory(to.params.id)
+})
 
 // 获取banner
 const bannerList = ref([])

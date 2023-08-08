@@ -13,7 +13,8 @@ onMounted(() => CategoryStore.getCategory())   //获取到数据
   <LayoutNav />
   <LayoutHeader />
   <LayoutHeaderUl></LayoutHeaderUl>
-  <!-- 二级路由入口 -->
-  <RouterView />
+  <!-- 二级路由入口 可以使用添加key方式强制清除路由缓存   :key='$route.fullPath' 方法一性能没有那么强 -->
+  <!-- <RouterView :key='$route.fullPath' /> -->
+  <RouterView  />
   <LayoutFooter />
 </template>
