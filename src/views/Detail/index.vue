@@ -1,4 +1,5 @@
 <script setup>
+import DetailHot from './components/DetailHot.vue'
 import { ref, onMounted } from 'vue'
 import { getDetail } from '@/apis/detail.js'
 import { useRoute } from 'vue-router'
@@ -114,13 +115,17 @@ onMounted(() => getGoods())
                                         </li>
                                     </ul>
                                     <!-- 图片 -->
-                                    <img v-for="img in goods.details.pictures"  v-img-lazy="img" :key="img" alt="">
+                                    <img v-for="img in goods.details.pictures" v-img-lazy="img" :key="img" alt="">
 
                                 </div>
                             </div>
                         </div>
                         <!-- 24热榜+专题推荐 -->
                         <div class="goods-aside">
+                            <!-- 24小时热榜 -->
+                            <DetailHot :type="1" />
+                            <!-- 周热榜 -->
+                            <DetailHot :type="2" />
 
                         </div>
                     </div>
