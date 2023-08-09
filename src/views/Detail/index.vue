@@ -1,17 +1,27 @@
 <script setup>
 import DetailHot from './components/DetailHot.vue'
-import  ImageView from '@/components/ImageView/index.vue'
+import ImageView from '@/components/ImageView/index.vue'
 import { ref, onMounted } from 'vue'
 import { getDetail } from '@/apis/detail.js'
-import { useRoute } from 'vue-router'
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 const goods = ref({})
 const route = useRoute()
-const getGoods = async () => {
-    const res = await getDetail(route.params.id)
+const getGoods = async (id = route.params.id) => {
+    const res = await getDetail(id)
     goods.value = res.result
 }
 getGoods()
 onMounted(() => getGoods())
+onBeforeRouteUpdate((to) => {
+    // console.log(to);  //去到哪一个路由详情参数
+    getGoods(to.params.id)
+})
+
+//sku改变数据触发事件
+const skuChange = (sku) => {
+    console.log(sku);
+
+}
 </script>
 
 <template>
@@ -89,6 +99,7 @@ onMounted(() => getGoods())
                                 </dl>
                             </div>
                             <!-- sku组件 -->
+                            <XtxSku :goods="goods" @change="skuChange"></XtxSku>
 
                             <!-- 数据组件 -->
 
