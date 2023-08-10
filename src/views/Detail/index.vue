@@ -30,9 +30,9 @@ const skuChange = (sku) => {
 //点击加入购物车按钮的一系列事件
 const count = ref(1)
 const cartStore = useCartStore()
-const handleChange = (value) => {
-    console.log(value)
-}
+// const handleChange = (value) => {
+//     console.log(value)
+// }
 const addCarts = () => {
     if (skuObj.skuId) {
         //选择了规格
@@ -46,6 +46,8 @@ const addCarts = () => {
             attrsText: skuObj.specsText,
             selected: true
         })
+        count.value=1
+        ElMessage.success('添加购物车成功')
     } else {
         //没有选择
         ElMessage('请先选择商品规格')
@@ -132,7 +134,7 @@ const addCarts = () => {
                             <XtxSku :goods="goods" @change="skuChange"></XtxSku>
 
                             <!-- 数据组件 -->
-                            <el-input-number v-model="count" :min="1" @change="handleChange" />
+                            <el-input-number v-model="count" :min="1"  />
 
                             <!-- 按钮组件 -->
                             <div>
