@@ -10,7 +10,6 @@ const getGoods = async (id = route.params.id) => {
     const res = await getDetail(id)
     goods.value = res.result
 }
-getGoods()
 onMounted(() => getGoods())
 onBeforeRouteUpdate((to) => {
     // console.log(to);  //去到哪一个路由详情参数
