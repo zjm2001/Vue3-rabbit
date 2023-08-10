@@ -1,6 +1,7 @@
 <script setup>
 import { useCategoryStore } from '@/stores/category.js'   //使用了pinia得到nav导航条数据
 const CategoryStore = useCategoryStore()
+import HeaderCart from './HeaderCart.vue'
 // import { getCategoryAPI } from '@/apis/layout.js'
 // const categoryList = ref([])
 // const getCategory = async () => {
@@ -31,6 +32,7 @@ const CategoryStore = useCategoryStore()
                 <input type="text" placeholder="搜一搜">
             </div>
             <!-- 头部购物车 -->
+            <HeaderCart></HeaderCart>
 
         </div>
     </header>

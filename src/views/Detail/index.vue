@@ -4,6 +4,9 @@ import ImageView from '@/components/ImageView/index.vue'
 import { ref, onMounted } from 'vue'
 import { getDetail } from '@/apis/detail.js'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+import { useCartStore } from '@/stores/cart.js'
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
 const goods = ref({})
 const route = useRoute()
 const getGoods = async (id = route.params.id) => {
@@ -17,8 +20,36 @@ onBeforeRouteUpdate((to) => {
 })
 
 //sku改变数据触发事件
+let skuObj = {}
 const skuChange = (sku) => {
-    console.log(sku);
+    // console.log(sku);
+    skuObj = sku
+
+}
+
+//点击加入购物车按钮的一系列事件
+const count = ref(1)
+const cartStore = useCartStore()
+const handleChange = (value) => {
+    console.log(value)
+}
+const addCarts = () => {
+    if (skuObj.skuId) {
+        //选择了规格
+        cartStore.addCart({
+            id: goods.value.id,
+            name: goods.value.name,
+            picture: goods.value.mainPictures[0],
+            price: goods.value.price,
+            count: count.value,
+            skuId: skuObj.skuId,
+            attrsText: skuObj.specsText,
+            selected: true
+        })
+    } else {
+        //没有选择
+        ElMessage('请先选择商品规格')
+    }
 
 }
 </script>
@@ -101,10 +132,11 @@ const skuChange = (sku) => {
                             <XtxSku :goods="goods" @change="skuChange"></XtxSku>
 
                             <!-- 数据组件 -->
+                            <el-input-number v-model="count" :min="1" @change="handleChange" />
 
                             <!-- 按钮组件 -->
                             <div>
-                                <el-button size="large" class="btn">
+                                <el-button size="large" class="btn" @click="addCarts">
                                     加入购物车
                                 </el-button>
                             </div>
