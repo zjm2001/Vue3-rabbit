@@ -1,8 +1,13 @@
 <script setup>
 import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user.js'
+const userStore = useUserStore()
 const userInfo = ref({
-    account: '1311111111',
-    password: '123456',
+    account: '12056258282',
+    password: 'hm#qd@23!',
     agree: true
 })
 const rules = {
@@ -20,6 +25,24 @@ const rules = {
             }
         }
     ]
+}
+//点击登录按钮
+const formRef = ref(null)
+const router = useRouter()
+const doLogin = () => {
+    const { account, password } = userInfo.value
+    //登录校验
+    formRef.value.validate(async (valid) => {
+        if (valid) {
+            //验证成功操作
+            // await loginAPI({password,account})
+            await userStore.getUserInfo({ password, account })
+            // 1. 提示用户
+            ElMessage({ type: 'success', message: '登录成功' })
+            // 2. 跳转首页跟 router.push 很像，唯一的不同就是，它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录
+            router.replace({ path: '/' })
+        }
+    })
 }
 
 </script>
@@ -46,19 +69,20 @@ const rules = {
                 </nav>
                 <div class="account-box">
                     <div class="form">
-                        <el-form label-position="right" label-width="60px" status-icon ref="formRef" :model="userInfo" :rules="rules">
-                            <el-form-item label="账户" prop="account" >
-                                <el-input v-model="userInfo.account"/>
+                        <el-form label-position="right" label-width="60px" status-icon ref="formRef" :model="userInfo"
+                            :rules="rules">
+                            <el-form-item label="账户" prop="account">
+                                <el-input v-model="userInfo.account" />
                             </el-form-item>
                             <el-form-item label="密码" prop="password">
-                                <el-input  v-model="userInfo.password"/>
+                                <el-input type="password" v-model="userInfo.password" />
                             </el-form-item>
-                            <el-form-item label-width="22px"  prop="agree">
+                            <el-form-item label-width="22px" prop="agree">
                                 <el-checkbox size="large" v-model="userInfo.agree">
                                     我已同意隐私条款和服务条款
                                 </el-checkbox>
                             </el-form-item>
-                            <el-button size="large" class="subBtn">点击登录</el-button>
+                            <el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
                         </el-form>
                     </div>
                 </div>
