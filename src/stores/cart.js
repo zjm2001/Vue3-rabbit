@@ -1,24 +1,47 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { useUserStore } from './user.js'
+import { insertCartAPI, findNewCartListAPI, delCartAPI } from '@/apis/cart'
 export const useCartStore = defineStore('cart', () => {
+    const userStore = useUserStore()
+    const isLogin = computed(() => userStore.userInfo.token)
     const cartList = ref([])
-    const addCart = (goods) => {
-        //操作购物车逻辑
-        //已添加就count+1
-        const item = cartList.value.find((item) => goods.skuId === item.skuId)
-        //没有就push
-        if (item) {
-            //找到了
-            item.count += goods.count
+    const addCart = async (goods) => {
+        const { skuId, count } = goods
+        if (isLogin.value) {
+            //登录状态
+            await insertCartAPI({ skuId, count })
+            const res = await findNewCartListAPI()
+            cartList.value = res.result
         } else {
-            cartList.value.push(goods)
+            //未登录状态
+            //操作购物车逻辑
+            //已添加就count+1
+            const item = cartList.value.find((item) => goods.skuId === item.skuId)
+            //没有就push
+            if (item) {
+                //找到了
+                item.count += goods.count
+            } else {
+                cartList.value.push(goods)
+            }
         }
+
 
     }
     //删除
-    const delCart = (skuId) => {
-        const idx = cartList.value.findIndex((item) => skuId === item.skuId)
-        cartList.value.splice(idx, 1)
+    const delCart = async (skuId) => {
+        if (isLogin.value) {
+            //登录状态
+            await delCartAPI([skuId])
+            const res = await findNewCartListAPI()
+            cartList.value = res.result
+
+        } else {
+            const idx = cartList.value.findIndex((item) => skuId === item.skuId)
+            cartList.value.splice(idx, 1)
+        }
+
     }
     // 单选功能
     const singleCheck = (skuId, selected) => {
@@ -39,6 +62,10 @@ export const useCartStore = defineStore('cart', () => {
     const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
     //是否全选
     const isAll = computed(() => cartList.value.every(item => item.selected))
+    // 3. 已选择数量
+    const selectedCount = computed(() => cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count, 0))
+    // 4. 已选择商品价钱合计
+    const selectedPrice = computed(() => cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count * c.price, 0))
     return {
         cartList,
         addCart,
@@ -47,7 +74,9 @@ export const useCartStore = defineStore('cart', () => {
         allPrice,
         singleCheck,
         isAll,
-        allCheck
+        allCheck,
+        selectedCount,
+        selectedPrice
     }
 },
     { persist: true }
