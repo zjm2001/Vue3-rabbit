@@ -11,8 +11,9 @@ export const useCartStore = defineStore('cart', () => {
         if (isLogin.value) {
             //登录状态
             await insertCartAPI({ skuId, count })
-            const res = await findNewCartListAPI()
-            cartList.value = res.result
+            // const res = await findNewCartListAPI()
+            // cartList.value = res.result
+            updateNewList()
         } else {
             //未登录状态
             //操作购物车逻辑
@@ -34,8 +35,9 @@ export const useCartStore = defineStore('cart', () => {
         if (isLogin.value) {
             //登录状态
             await delCartAPI([skuId])
-            const res = await findNewCartListAPI()
-            cartList.value = res.result
+            // const res = await findNewCartListAPI()
+            // cartList.value = res.result
+            updateNewList()
 
         } else {
             const idx = cartList.value.findIndex((item) => skuId === item.skuId)
@@ -43,6 +45,16 @@ export const useCartStore = defineStore('cart', () => {
         }
 
     }
+    //退出清空
+    const clearCart = () => {
+        cartList.value = []
+    }
+    //获取购物车
+    const updateNewList = async () => {
+        const res = await findNewCartListAPI()
+        cartList.value = res.result
+    }
+
     // 单选功能
     const singleCheck = (skuId, selected) => {
         // 通过skuId找到要修改的那一项 然后把它的selected修改为传过来的selected
@@ -76,7 +88,9 @@ export const useCartStore = defineStore('cart', () => {
         isAll,
         allCheck,
         selectedCount,
-        selectedPrice
+        selectedPrice,
+        clearCart,
+        updateNewList
     }
 },
     { persist: true }
