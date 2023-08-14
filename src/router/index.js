@@ -45,8 +45,25 @@ const router = createRouter({
         },
         {
           path: 'paycallback', // 注意路径，必须是paycallback
+          name:'paycallback',
           component:  () => import('@/views/Pay/PayBack.vue'),
         },
+        {
+          path:'member',
+          name:'member',
+          component:()=> import('@/views/MemBer/index.vue'),
+          children:[
+            //三级路由
+            {
+              path: '',
+              component: import('@/views/MemBer/components/UserInfo.vue')
+            },
+            {
+              path: 'order',
+              component: import('@/views/MemBer/components/UserOrder.vue')
+            }
+          ]
+        }
 
       ]
     },
