@@ -9,6 +9,7 @@ import { componentPlugin } from '@/components'
 
 import App from './App.vue'
 import router from './router'
+import 'element-plus/theme-chalk/index.css'
 const app = createApp(App)
 const pinia=createPinia()
 pinia.use(persist )   //必须要有pinia

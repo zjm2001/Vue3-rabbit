@@ -1,4 +1,4 @@
-import http from '@/utils/http'
+import http from '@/utils/http.js'
 
 /**渲染基础数据 */
 export const getDetail = (id) => {
