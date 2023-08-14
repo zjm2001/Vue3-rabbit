@@ -6,7 +6,7 @@ import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
 const userInfo = ref({
-    account: '12056258282',
+    account: 'heima292',
     password: 'hm#qd@23!',
     agree: true
 })
