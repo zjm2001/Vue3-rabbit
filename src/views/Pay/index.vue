@@ -10,8 +10,8 @@ const payInfo = ref({})
 const getPayInfo = async () => {
     const res = await getOrderAPI(route.query.id)
     payInfo.value = res.result
-      // 初始化倒计时秒数
-  start(res.result.countdown)
+    // 初始化倒计时秒数
+    start(res.result.countdown)
 }
 onMounted(() => getPayInfo())
 
@@ -25,9 +25,12 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redire
 
 <template>
     <div class="xtx-pay-page">
+
         <div class="container">
+            <el-alert title="暂时支持支付宝支付 账号:  askgxl8276@sandbox.com  密码和支付密码: 111111" />
             <!-- 付款信息 -->
             <div class="pay-info">
+
                 <span class="icon iconfont icon-queren2"></span>
                 <div class="tip">
                     <p>订单提交成功！请尽快完成支付。</p>
@@ -41,10 +44,12 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redire
             <!-- 付款方式 -->
             <div class="pay-type">
                 <p class="head">选择以下支付方式付款</p>
+
                 <div class="item">
                     <p>支付平台</p>
                     <a class="btn wx" href="javascript:;"></a>
                     <a class="btn alipay" :href="payUrl"></a>
+
                 </div>
                 <div class="item">
                     <p>支付方式</p>

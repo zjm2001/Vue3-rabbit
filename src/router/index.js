@@ -1,7 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
+import order from '@/views/MemBer/components/UserOrder.vue';
+import user from '@/views/MemBer/components/UserInfo.vue';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -61,11 +63,13 @@ const router = createRouter({
             //三级路由
             {
               path: '',
-              component: import('@/views/MemBer/components/UserInfo.vue')
+              component:user
+              // component: import('@/views/MemBer/components/UserInfo.vue')
             },
             {
               path: 'order',
-              component: import('@/views/MemBer/components/UserOrder.vue')
+              component:order
+              // component: import('@/views/MemBer/components/UserOrder.vue')
             }
           ]
         }

@@ -14,8 +14,8 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
     Components({
-        // 配置elementPlus采用sass样式配色系统
-    resolvers: [ElementPlusResolver({ importStyle: "sass" })],   //第一步 配置elementPlus采用sass样式配色系统
+      // 配置elementPlus采用sass样式配色系统
+      resolvers: [ElementPlusResolver({ importStyle: "sass" })],   //第一步 配置elementPlus采用sass样式配色系统
     }),
   ],
   resolve: {
@@ -23,7 +23,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-   // 自动导入定制化样式文件进行样式覆盖
+  // 自动导入定制化样式文件进行样式覆盖
   css: {
     preprocessorOptions: {
       scss: {
@@ -31,9 +31,10 @@ export default defineConfig({
         additionalData: `
         @use "@/styles/element/index.scss" as *;     
         @use "@/styles/var.scss" as *;
-        `  
+        `
       },
     },
   },
+  base: "./",
 
 })
